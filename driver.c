@@ -257,6 +257,24 @@ uint8_t UART_ReceiveChar (void)
 	return Data;
 }
 
+uint8_t UART_ReceiveString (uint8_t Len)
+{
+	uint8_t count;
+	uint8_t *pData;
+	//Enable Receiver
+	UART0->C2 |= UART_C2_RE(1U);
+	for (count = 0; count < Len; count++)
+	{
+		//Wait RX Data Buffer is Full (RDRF)
+		while ((UART0->S1 & UART_S1_RDRF_MASK) == 0U);
+		//Read RC Buffer
+		pData[count] = UART0->D;
+	}
+	//Disabla Receiver
+	UART0->C2 &= ~UART_C2_RE_MASK;
+	return pData;
+}
+
 void UART_ReceiveINT(void)
 {
 	// Enable Receive Interrupt
