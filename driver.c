@@ -199,7 +199,6 @@ void UART_Init(void)
 	//Baudrate(FCRDIV, SIM_SOPT2[UART0SRC])
 	UART0->BDH &= ~UART0_BDH_SBR_MASK;
 	UART0->BDL = 41U;
-	uint32_t temp =UART0->C4;
 	UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9U);
 
 	//Frame (Data Length(C1[M], C4[M10]), Parity(C1[PE/PT], Stop bits(BDH[SBNS])
